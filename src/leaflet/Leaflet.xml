@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="utf-8"?>
+<widget id="leaflet.widget.Leaflet" needsEntityContext="false" xmlns="http://www.mendix.com/widget/1.0/">
+    <name>Leaflet</name>
+    <description>Widget for Leaflet Maps</description>
+    <properties>
+        <property key="farmEntity" type="entity" required="true">
+            <caption>Place entity</caption>
+            <category>Place</category>
+            <description>The objects to be used for the place.</description>
+        </property> 
+        <property key="projectReadOnly" type="boolean" defaultValue="false">
+            <caption>Project&#39;s readonly/editable</caption>
+            <category>Place</category>
+            <description>If true, the user can not edit project.</description>
+        </property>
+        <property key="projectEditPolygon" type="boolean" defaultValue="false">
+            <caption>Project&#39;s edit polygon</caption>
+            <category>Place</category>
+            <description>If true, the user can edit location of polygon.</description>
+        </property>
+        <property key="latOrigin" type="integer" defaultValue="0">
+            <caption>Origin's latitude</caption>
+            <category>1) Map</category>
+            <description>The pixel of origin's latitude.</description>
+        </property>
+        <property key="lngOrigin" type="integer" defaultValue="0">
+            <caption>Origin's longitude</caption>
+            <category>1) Map</category>
+            <description>The pixel of origin's longitude.</description>
+        </property>  
+        <property key="minZoom" type="integer" defaultValue="0">
+            <caption>Min zoom</caption>
+            <category>1) Map</category>
+            <description>The min zoom level of the map.</description>
+        </property> 
+        <property key="maxZoom" type="integer" defaultValue="5">
+            <caption>Max zoom</caption>
+            <category>1) Map</category>
+            <description>The max zoom level of the map.</description>
+        </property>
+        <property key="zoomLevel" type="integer" defaultValue="3">
+            <caption>Zoom level</caption>
+            <category>1) Map</category>
+            <description>The zoom level from min zoom to max zoom of the map when starting.</description>
+        </property> 
+        <property key="latStarting" type="integer" defaultValue="500">
+            <caption>Latitude starting</caption>
+            <category>1) Map</category>
+            <description>The latitude of the view when starting.</description>
+        </property>
+        <property key="lngStarting" type="integer" defaultValue="500">
+            <caption>Longitude starting</caption>
+            <category>1) Map</category>
+            <description>The Longitude of the view when starting.</description>
+        </property>
+        <property key="formType" type="enumeration" defaultValue="formRight">
+            <caption>Dataview position</caption>
+            <category>1) Map</category>
+            <description>The type of the dataview position in the widget</description>
+            <enumerationValues>
+                <enumerationValue key="formTop">Top</enumerationValue>
+                <enumerationValue key="formBottom">Bottom</enumerationValue>
+                <enumerationValue key="formLeft">Left</enumerationValue>
+                <enumerationValue key="formRight">Right</enumerationValue>
+            </enumerationValues>
+        </property>
+        <property key="animationDuration" type="integer" defaultValue="500">
+            <caption>Animation duration</caption>
+            <category>1) Map</category>
+            <description>The length of time(milisecond) animation slice to hide.</description>
+        </property>
+        <property key="plantEntity" type="entity" required="true">
+            <caption>POI Entity</caption>
+            <category>2) POI</category>
+            <description>The object to be used for POI.</description>
+        </property>
+        <property key="plantActive" type="attribute" entityProperty="plantEntity" required="false">
+            <caption>POI active</caption>
+            <category>2) POI</category>
+            <description>The attribute used to focus plant on the map by click on the POI's grid.</description>
+            <attributeTypes>
+				<attributeType name="Boolean"/>
+		    </attributeTypes>
+        </property>
+        <property key="plantFarmAssociation" type="entity" entityProperty="plantEntity" isPath="yes" pathType="reference" required="true">
+            <caption>POI-Place relation</caption>
+            <category>2) POI</category>
+            <description>Relation between POI and the place it belongs to.</description>
+        </property>
+        <property key="editFormPlant" type="form" required="true">
+            <caption>Form POI</caption>
+            <category>2) POI</category>
+            <description>This form used when left click on POI.</description>
+        </property>
+        <property type="object" key="customPlantContextMenu" required="false" isList="true">
+            <caption>POI Context Menu</caption>
+            <category>2) POI</category>
+            <description/>
+            <properties>
+                <property type="string" key="label" required="false">
+                    <caption>Label</caption>
+                    <category>Menu Item</category>
+                    <description>Label of menu item.</description>
+                </property>
+                <property type="microflow" key="microflow" entityProperty="../plantEntity" required="true">
+                    <caption>Microflow</caption>
+                    <category>Menu Item</category>
+                    <description>Microflow that is triggered when click on menu shape.</description>
+                    <returnType type="Void"/>
+                </property>
+            </properties>
+        </property>
+        <property type="object" key="customListOfPlantContextMenu" required="false" isList="true">
+            <caption>Context menu of multiple POI</caption>
+            <category>2) POI</category>
+            <description/>
+            <properties>
+                <property type="string" key="label" required="false">
+                    <caption>Label</caption>
+                    <category>Menu Item</category>
+                    <description>Label of menu item.</description>
+                </property>
+                <property type="microflow" key="microflow" entityProperty="../plantEntity" required="false" parameterIsList="true">
+                    <caption>Microflow</caption>
+                    <category>Menu Item</category>
+                    <description>Microflow that is triggered when click on menu of plant.</description>
+                    <returnType type="Void"/>
+                </property>
+            </properties>
+        </property>
+        <property key="zoneEntity" type="entity">
+            <caption>Zone entity</caption>
+            <category>3) Zone</category>
+            <description>The object to be used for zone.</description>
+        </property>
+        <property key="zoneID" type="attribute" entityProperty="zoneEntity" required="true">
+            <caption>Zone ID</caption>
+            <category>3) Zone</category>
+            <description>The attribute used as ID of the zone.</description>
+            <attributeTypes>
+				<attributeType name="String"/>
+		    </attributeTypes>
+        </property>
+        <property key="zoneFarmAssociation" type="entity" entityProperty="zoneEntity" isPath="yes" pathType="reference" required="false">
+            <caption>Zone-Place relation</caption>
+            <category>3) Zone</category>
+            <description>Relation between zone and the place it belongs to.</description>
+        </property>
+        <property key="editFormZone" type="form" required="true">
+            <caption>Form zone</caption>
+            <category>3) Zone</category>
+            <description>This form used when left click on the zone.</description>
+        </property>
+        <property key="locationEntity" type="entity" required="true">
+            <caption>Location entity</caption>
+            <category>4) Location</category>
+            <description>The objects to present location of the shape.</description>
+        </property>
+        <property key="latitudeAttribute" type="attribute" entityProperty="locationEntity" required="true">
+            <caption>Latitude</caption>
+            <category>4) Location</category>
+            <description>The attribute used as latitude geometry of the shape.</description>
+            <attributeTypes>
+				<attributeType name="Integer"/>
+		    </attributeTypes>
+        </property>
+        <property key="longitudeAttribute" type="attribute" entityProperty="locationEntity" required="true">
+            <caption>Longitude</caption>
+            <category>4) Location</category>
+            <description>The attribute used as longitude geometry of the shape.</description>
+            <attributeTypes>
+				<attributeType name="Integer"/>
+		    </attributeTypes>
+        </property>
+        <property key="order" type="attribute" entityProperty="locationEntity" required="true">
+            <caption>Order</caption>
+            <category>4) Location</category>
+            <description>The attribute used as order of the shape.</description>
+            <attributeTypes>
+				<attributeType name="Decimal"/>
+		    </attributeTypes>
+        </property>
+        <property key="locationZoneAssociation" type="entity" entityProperty="locationEntity" isPath="yes" pathType="reference" required="true">
+            <caption>Location-Zone relation</caption>
+            <category>4) Location</category>
+            <description>Relation between location and the zone it belongs to.</description>
+        </property>
+        <property key="plantCoordinateAssociation" type="entity" entityProperty="plantEntity" isPath="yes" pathType="reference" required="true">
+            <caption>POI-Location relation</caption>
+            <category>4) Location</category>
+            <description>Relation between POI and the location it belongs to.</description>
+        </property>
+        <property key="cropSubTypeEntity" type="entity">
+            <caption>POI Type entity</caption>
+            <category>5) POI Type</category>
+            <description>The object of POI Type.</description>
+        </property>
+        <property key="nameCropSubType" type="attribute" entityProperty="cropSubTypeEntity" required="false">
+            <caption>POI Type's Name</caption>
+            <category>5) POI Type</category>
+            <description>The name attribute of POI Type.</description>
+             <attributeTypes>
+                <attributeType name="String"/>
+            </attributeTypes>
+        </property>
+        <property key="farmCropSubTypeAssociation" type="entity" entityProperty="farmEntity" isPath="yes" pathType="referenceSet" required="false">
+            <caption>Place-POI Type relation</caption>
+            <category>5) POI Type</category>
+            <description>Relation between place and list of POI Type it owns.</description>
+        </property>
+         <property key="plantCropSubTypeAssociation" type="entity" entityProperty="plantEntity" isPath="yes" pathType="reference" required="false">
+            <caption>POI-POI Type relation</caption>
+            <category>5) POI Type</category>
+            <description>Relation between POI and POI Type it belongs to.</description>
+        </property>
+        <property key="screenShotImage" type="entity" required="false">
+            <caption>Screenshot image</caption>
+            <category>6) ScreenShot Image</category>
+            <description>The objects used as image after screenshot.</description>
+        </property>
+        <property key="screenShotImageFarmAssociation" type="entity" entityProperty="screenShotImage" isPath="yes" pathType="reference" required="false">
+            <caption>Screenshot image-Place relation</caption>
+            <category>6) ScreenShot Image</category>
+            <description>Relation between screenshot image and the place it belongs to.</description>
+        </property>
+        <property type="microflow" key="screenShotImageMicroflow" entityProperty="screenShotImage" required="false">
+            <caption>Screenshot micrSflow</caption>
+            <category>6) ScreenShot Image</category>
+            <description>Microflow that is triggered when click on screeshot.</description>
+            <returnType type="Void"/>
+        </property>
+         <property key="editContextMenu" type="boolean" defaultValue="false">
+            <caption>Edit option</caption>
+            <category>7) Context menu</category>
+            <description>If true, the edit option will apear on context menu.</description>
+        </property>
+        <property key="removeContextMenu" type="boolean" defaultValue="false">
+            <caption>Remove option</caption>
+            <category>7) Context menu</category>
+            <description>If true, the remove option will apear on context menu.</description>
+        </property>
+    </properties>
+</widget>

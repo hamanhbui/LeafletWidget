@@ -1,0 +1,27 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "module": "amd",
+    "sourceMap": true,
+    "types": [
+      "mendix-client"
+    ],
+    "experimentalDecorators": true,
+    "skipLibCheck": true,
+    "strictNullChecks": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "allowJs": true,
+    "lib": [
+      "es2015",
+      "dom"
+    ]
+  },
+  "include": [
+    "src/leaflet/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    ".npm"
+  ]
+}

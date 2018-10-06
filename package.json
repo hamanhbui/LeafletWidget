@@ -1,0 +1,23 @@
+{
+  "name": "leaflet",
+  "version": "1.0.0",
+  "description": "using leaflet library for mendix widget",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/dojo": "^1.9.38",
+    "gulp": "^3.9.1",
+    "gulp-babili": "^0.1.4",
+    "gulp-clean": "^0.3.2",
+    "gulp-rename": "^1.2.2",
+    "gulp-typescript": "^3.2.2",
+    "gulp-zip": "^4.0.0",
+    "mendix-client": "^7.4.1",
+    "run-sequence": "^2.2.0",
+    "typescript": "^2.5.3"
+  }
+}
